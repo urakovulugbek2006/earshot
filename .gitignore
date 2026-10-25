@@ -1,0 +1,84 @@
+# ── Node / TypeScript ────────────────────────────────────────────────
+node_modules/
+.pnpm-store/
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+.turbo/
+coverage/
+.eslintcache
+storybook-static/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# ── Go ───────────────────────────────────────────────────────────────
+bin/
+*.exe
+*.test
+*.out
+vendor/
+__debug_bin*
+
+# ── Python (reco-svc) ────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# ── Secrets — never commit ───────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+!**/testdata/**/*.key
+secrets.yaml
+*.decrypted.yaml
+.sops.yaml.local
+
+# ── Media artifacts — large, derived, reproducible ───────────────────
+# Transcoded output and uploads are rebuilt by media-worker from masters.
+# Never in git: a single track is ~360 HLS segment files.
+/media/
+/uploads/
+*.m3u8
+*.ts
+*.aac
+*.mp3
+*.flac
+*.wav
+!docs/**/*.ts
+!**/*.d.ts
+# NOTE: *.ts above targets MPEG-TS segments, not TypeScript. TypeScript
+# sources live under apps/, services/ and packages/ and are re-included here.
+!apps/**/*.ts
+!services/**/*.ts
+!packages/**/*.ts
+!*.config.ts
+
+# ── Local infrastructure state ───────────────────────────────────────
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+/data/
+pgdata/
+minio-data/
+clickhouse-data/
+redpanda-data/
+
+# ── Editors / OS ─────────────────────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
