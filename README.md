@@ -71,6 +71,7 @@ Start here. The documents are the project at this stage.
 | [Listening rooms design](docs/04-listening-rooms-design.md) | Clock sync, drift correction, coordinated start, WebSocket scaling |
 | [Patterns & algorithms](docs/05-patterns-and-algorithms.md) | Patterns and data structures mapped per week, plus what we deliberately avoid |
 | [How to draw system design](docs/06-how-to-draw-system-design.md) | The method, written while learning it |
+| [Layers & DDD](docs/07-layers-and-ddd.md) | Controller / application / domain / infrastructure, and where we deliberately don't use DDD |
 | [ADRs](docs/adr/) | Eight decisions, each with the rejected options and why |
 | [Design system](design/) | Token source of truth, light and dark |
 
