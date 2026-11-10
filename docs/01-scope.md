@@ -1,5 +1,9 @@
 # Scope (MoSCoW)
 
+> For the same thing expressed as *what a user can do*, see
+> [08-capabilities.md](08-capabilities.md). The two must agree; if they drift,
+> this file wins on in/out and that one wins on wording.
+
 The purpose of this document is to be the thing you point at when you're tempted
 to add something in week 5.
 

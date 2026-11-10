@@ -65,6 +65,7 @@ Start here. The documents are the project at this stage.
 | Document | What it covers |
 |---|---|
 | [Project plan](docs/00-project-plan.md) | 8 weeks, one primary discipline each, exit criteria, working agreements |
+| [Capabilities](docs/08-capabilities.md) | What the app can do, in user terms |
 | [Scope](docs/01-scope.md) | MoSCoW, explicit *won't-haves*, scope tripwires |
 | [Architecture (C4)](docs/02-architecture-c4.md) | Context and container views, service boundaries, the five rules |
 | [Capacity & cost](docs/03-capacity-and-cost.md) | Bandwidth, storage, CPU and RAM budgets → server spec → SLOs |
