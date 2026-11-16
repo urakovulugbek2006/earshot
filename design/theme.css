@@ -15,26 +15,39 @@
 
 :root {
   /* ── primitives ──────────────────────────────────────────────────── */
+  /* warm neutrals — light ground */
   --sand-50: #fdfcfa;
-  --sand-100: #f5f3ee;
+  --sand-100: #f6f4ef;
   --sand-200: #edeae0;
   --sand-300: #d6d3ca;
-  --sand-400: #a8a49a;
   --sand-600: #5c5a54;
   --sand-700: #413f39;
-  --sand-900: #1c1b16;
-  --sand-950: #13120e;
-  --sand-1000: #0d0d09;
+  /* cool neutrals — dark ground */
+  --slate-100: #f2f4f3;
+  --slate-200: #e4eae9;
+  --slate-300: #cbd2d1;
+  --slate-400: #9aa3a3;
+  --slate-700: #2a3438;
+  --slate-800: #172025;
+  --slate-900: #0f1417;
+  --slate-1000: #0a0f11;
   --ink: #141413;
   --white: #ffffff;
-  --blue-400: #60a5fa;
-  --blue-600: #1d4ed8;
-  --blue-700: #1e3a8a;
-  --lime-200: #d9f99d;
-  --orange-400: #fb923c;
-  --orange-600: #ea580c;
-  --amber-200: #fde68a;
-  --sky-200: #bfdbfe;
+  /* the ko'k of the Timurid standard */
+  --turquoise-100: #c9edf3;
+  --turquoise-200: #6fe0f0;
+  --turquoise-300: #22c3db;
+  --turquoise-500: #0099b5;
+  --turquoise-700: #00707f;
+  --turquoise-800: #0e3a44;
+  --turquoise-900: #0a1416;
+  --turquoise-950: #06161a;
+  /* Timurid tilework */
+  --gold-500: #f3c84e;
+  --terracotta-400: #f07a52;
+  --terracotta-500: #d9542b;
+  --lapis-300: #7a95e8;
+  --lapis-500: #2b4c9b;
 
   /* ── semantic: light ─────────────────────────────────────────────── */
   --bg-base: var(--sand-100);
@@ -44,21 +57,23 @@
   --text-primary: var(--ink);
   --text-secondary: var(--sand-700);
   --text-muted: var(--sand-600);
-  --text-on-accent: var(--white);
+  --text-on-accent: var(--turquoise-900);
   --text-on-highlight: var(--ink);
 
   --border-strong: var(--ink);
   --border-subtle: var(--sand-300);
 
-  --accent: var(--blue-600);
-  --accent-hover: var(--blue-700);
+  --accent: var(--turquoise-500);
+  --accent-text: var(--turquoise-700);
+  --accent-soft: var(--turquoise-100);
 
-  --status-highlight: var(--lime-200);
-  --status-warn: var(--orange-600);
+  --status-highlight: var(--gold-500);
+  --status-warn: var(--terracotta-500);
+  --status-info: var(--lapis-500);
 
   --shadow-hard: var(--ink);
 
-  --waveform-played: var(--blue-600);
+  --waveform-played: var(--turquoise-500);
   --waveform-remaining: var(--sand-300);
 
   /* ── scales (theme-independent) ──────────────────────────────────── */
@@ -100,63 +115,66 @@
 
 /* ── semantic: dark ───────────────────────────────────────────────────
    Not an inversion. border-strong becomes light so 2px edges still read
-   as edges, and accent lightens because blue-600 fails contrast on a
-   dark ground (3.1:1 — below the 4.5:1 floor).
+   as edges, and accent lightens because turquoise-500 drops under the contrast floor on a dark ground (3.1:1 — below the 4.5:1 floor).
    ─────────────────────────────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg-base: var(--sand-950);
-    --bg-surface: var(--sand-900);
-    --bg-sunken: var(--sand-1000);
+    --bg-base: var(--slate-900);
+    --bg-surface: var(--slate-800);
+    --bg-sunken: var(--slate-1000);
 
-    --text-primary: var(--sand-100);
-    --text-secondary: var(--sand-300);
-    --text-muted: var(--sand-400);
-    --text-on-accent: var(--sand-950);
+    --text-primary: var(--slate-100);
+    --text-secondary: var(--slate-300);
+    --text-muted: var(--slate-400);
+    --text-on-accent: var(--turquoise-950);
     --text-on-highlight: var(--ink);
 
-    --border-strong: var(--sand-200);
-    --border-subtle: #302e26;
+    --border-strong: var(--slate-200);
+    --border-subtle: var(--slate-700);
 
-    --accent: var(--blue-400);
-    --accent-hover: #93c5fd;
+    --accent: var(--turquoise-300);
+    --accent-text: var(--turquoise-200);
+    --accent-soft: var(--turquoise-800);
 
-    --status-highlight: var(--lime-200);
-    --status-warn: var(--orange-400);
+    --status-highlight: var(--gold-500);
+    --status-warn: var(--terracotta-400);
+    --status-info: var(--lapis-300);
 
-    --shadow-hard: var(--sand-200);
+    --shadow-hard: var(--slate-200);
 
-    --waveform-played: var(--blue-400);
-    --waveform-remaining: #302e26;
+    --waveform-played: var(--turquoise-300);
+    --waveform-remaining: var(--slate-700);
 
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg-base: var(--sand-950);
-  --bg-surface: var(--sand-900);
-  --bg-sunken: var(--sand-1000);
+  --bg-base: var(--slate-900);
+  --bg-surface: var(--slate-800);
+  --bg-sunken: var(--slate-1000);
 
-  --text-primary: var(--sand-100);
-  --text-secondary: var(--sand-300);
-  --text-muted: var(--sand-400);
-  --text-on-accent: var(--sand-950);
+  --text-primary: var(--slate-100);
+  --text-secondary: var(--slate-300);
+  --text-muted: var(--slate-400);
+  --text-on-accent: var(--turquoise-950);
   --text-on-highlight: var(--ink);
 
-  --border-strong: var(--sand-200);
-  --border-subtle: #302e26;
+  --border-strong: var(--slate-200);
+  --border-subtle: var(--slate-700);
 
-  --accent: var(--blue-400);
-  --accent-hover: #93c5fd;
+  --accent: var(--turquoise-300);
+  --accent-text: var(--turquoise-200);
+  --accent-soft: var(--turquoise-800);
 
-  --status-highlight: var(--lime-200);
-  --status-warn: var(--orange-400);
+  --status-highlight: var(--gold-500);
+  --status-warn: var(--terracotta-400);
+  --status-info: var(--lapis-300);
 
-  --shadow-hard: var(--sand-200);
+  --shadow-hard: var(--slate-200);
 
-  --waveform-played: var(--blue-400);
-  --waveform-remaining: #302e26;
+  --waveform-played: var(--turquoise-300);
+  --waveform-remaining: var(--slate-700);
 
   color-scheme: dark;
 }
@@ -181,10 +199,12 @@
   --color-subtle: var(--border-subtle);
 
   --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
 
   --color-highlight: var(--status-highlight);
   --color-warn: var(--status-warn);
+  --color-info: var(--status-info);
 
   --color-wave-played: var(--waveform-played);
   --color-wave-remaining: var(--waveform-remaining);
@@ -224,7 +244,7 @@ select {
 
 /* Visible focus in both themes. Never remove this without a replacement. */
 :focus-visible {
-  outline: var(--border-width-thick) solid var(--accent);
+  outline: var(--border-width-thick) solid var(--accent-text);
   outline-offset: 2px;
 }
 

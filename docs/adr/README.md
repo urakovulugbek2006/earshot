@@ -14,4 +14,5 @@ Format: Context → Options → Decision → Consequences.
 | [0005](0005-service-decomposition.md) | Five services, shared Postgres with schema-per-service | Accepted |
 | [0006](0006-audio-delivery.md) | HLS with AAC, three renditions, two-second segments | Accepted |
 | [0007](0007-transactional-outbox.md) | Transactional outbox for all event publishing | Accepted |
-| [0008](0008-design-direction.md) | Direction C ("Signal") as the design system, light and dark | Accepted |
+| [0008](0008-design-direction.md) | Direction C ("Signal") as the design system, light and dark | Accepted (palette superseded by 0009) |
+| [0009](0009-timurid-palette.md) | Timurid turquoise as the brand colour | Accepted |
