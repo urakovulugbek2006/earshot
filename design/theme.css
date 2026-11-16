@@ -22,32 +22,31 @@
   --sand-300: #d6d3ca;
   --sand-600: #5c5a54;
   --sand-700: #413f39;
-  /* cool neutrals — dark ground */
-  --slate-100: #f2f4f3;
-  --slate-200: #e4eae9;
-  --slate-300: #cbd2d1;
-  --slate-400: #9aa3a3;
-  --slate-700: #2a3438;
-  --slate-800: #172025;
-  --slate-900: #0f1417;
-  --slate-1000: #0a0f11;
+  /* neutral-plum darks — dark ground */
+  --plum-100: #f4f2f6;
+  --plum-200: #e8e4ee;
+  --plum-300: #d2cdd9;
+  --plum-400: #a09aab;
+  --plum-700: #2a2633;
+  --plum-800: #201c28;
+  --plum-900: #15131a;
+  --plum-1000: #0e0c12;
   --ink: #141413;
   --white: #ffffff;
-  /* the ko'k of the Timurid standard */
-  --turquoise-100: #c9edf3;
-  --turquoise-200: #6fe0f0;
-  --turquoise-300: #22c3db;
-  --turquoise-500: #0099b5;
-  --turquoise-700: #00707f;
-  --turquoise-800: #0e3a44;
-  --turquoise-900: #0a1416;
-  --turquoise-950: #06161a;
-  /* Timurid tilework */
+  /* the brand: deep magenta */
+  --magenta-100: #fbd5e3;
+  --magenta-200: #f9a8d4;
+  --magenta-300: #f472b6;
+  --magenta-500: #c2185b;
+  --magenta-700: #9e1250;
+  --magenta-800: #3b0f28;
+  --magenta-950: #2a0a18;
+  /* supporting roles */
   --gold-500: #f3c84e;
-  --terracotta-400: #f07a52;
-  --terracotta-500: #d9542b;
-  --lapis-300: #7a95e8;
-  --lapis-500: #2b4c9b;
+  --amber-400: #d97706;
+  --amber-600: #b45309;
+  --indigo-300: #818cf8;
+  --indigo-500: #4338ca;
 
   /* ── semantic: light ─────────────────────────────────────────────── */
   --bg-base: var(--sand-100);
@@ -57,23 +56,23 @@
   --text-primary: var(--ink);
   --text-secondary: var(--sand-700);
   --text-muted: var(--sand-600);
-  --text-on-accent: var(--turquoise-900);
+  --text-on-accent: var(--white);
   --text-on-highlight: var(--ink);
 
   --border-strong: var(--ink);
   --border-subtle: var(--sand-300);
 
-  --accent: var(--turquoise-500);
-  --accent-text: var(--turquoise-700);
-  --accent-soft: var(--turquoise-100);
+  --accent: var(--magenta-500);
+  --accent-text: var(--magenta-700);
+  --accent-soft: var(--magenta-100);
 
   --status-highlight: var(--gold-500);
-  --status-warn: var(--terracotta-500);
-  --status-info: var(--lapis-500);
+  --status-warn: var(--amber-600);
+  --status-info: var(--indigo-500);
 
   --shadow-hard: var(--ink);
 
-  --waveform-played: var(--turquoise-500);
+  --waveform-played: var(--magenta-500);
   --waveform-remaining: var(--sand-300);
 
   /* ── scales (theme-independent) ──────────────────────────────────── */
@@ -115,66 +114,66 @@
 
 /* ── semantic: dark ───────────────────────────────────────────────────
    Not an inversion. border-strong becomes light so 2px edges still read
-   as edges, and accent lightens because turquoise-500 drops under the contrast floor on a dark ground (3.1:1 — below the 4.5:1 floor).
+   as edges, and accent lightens to magenta-300, which then needs DARK
    ─────────────────────────────────────────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg-base: var(--slate-900);
-    --bg-surface: var(--slate-800);
-    --bg-sunken: var(--slate-1000);
+    --bg-base: var(--plum-900);
+    --bg-surface: var(--plum-800);
+    --bg-sunken: var(--plum-1000);
 
-    --text-primary: var(--slate-100);
-    --text-secondary: var(--slate-300);
-    --text-muted: var(--slate-400);
-    --text-on-accent: var(--turquoise-950);
+    --text-primary: var(--plum-100);
+    --text-secondary: var(--plum-300);
+    --text-muted: var(--plum-400);
+    --text-on-accent: var(--magenta-950);
     --text-on-highlight: var(--ink);
 
-    --border-strong: var(--slate-200);
-    --border-subtle: var(--slate-700);
+    --border-strong: var(--plum-200);
+    --border-subtle: var(--plum-700);
 
-    --accent: var(--turquoise-300);
-    --accent-text: var(--turquoise-200);
-    --accent-soft: var(--turquoise-800);
+    --accent: var(--magenta-300);
+    --accent-text: var(--magenta-200);
+    --accent-soft: var(--magenta-800);
 
     --status-highlight: var(--gold-500);
-    --status-warn: var(--terracotta-400);
-    --status-info: var(--lapis-300);
+    --status-warn: var(--amber-400);
+    --status-info: var(--indigo-300);
 
-    --shadow-hard: var(--slate-200);
+    --shadow-hard: var(--plum-200);
 
-    --waveform-played: var(--turquoise-300);
-    --waveform-remaining: var(--slate-700);
+    --waveform-played: var(--magenta-300);
+    --waveform-remaining: var(--plum-700);
 
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg-base: var(--slate-900);
-  --bg-surface: var(--slate-800);
-  --bg-sunken: var(--slate-1000);
+  --bg-base: var(--plum-900);
+  --bg-surface: var(--plum-800);
+  --bg-sunken: var(--plum-1000);
 
-  --text-primary: var(--slate-100);
-  --text-secondary: var(--slate-300);
-  --text-muted: var(--slate-400);
-  --text-on-accent: var(--turquoise-950);
+  --text-primary: var(--plum-100);
+  --text-secondary: var(--plum-300);
+  --text-muted: var(--plum-400);
+  --text-on-accent: var(--magenta-950);
   --text-on-highlight: var(--ink);
 
-  --border-strong: var(--slate-200);
-  --border-subtle: var(--slate-700);
+  --border-strong: var(--plum-200);
+  --border-subtle: var(--plum-700);
 
-  --accent: var(--turquoise-300);
-  --accent-text: var(--turquoise-200);
-  --accent-soft: var(--turquoise-800);
+  --accent: var(--magenta-300);
+  --accent-text: var(--magenta-200);
+  --accent-soft: var(--magenta-800);
 
   --status-highlight: var(--gold-500);
-  --status-warn: var(--terracotta-400);
-  --status-info: var(--lapis-300);
+  --status-warn: var(--amber-400);
+  --status-info: var(--indigo-300);
 
-  --shadow-hard: var(--slate-200);
+  --shadow-hard: var(--plum-200);
 
-  --waveform-played: var(--turquoise-300);
-  --waveform-remaining: var(--slate-700);
+  --waveform-played: var(--magenta-300);
+  --waveform-remaining: var(--plum-700);
 
   color-scheme: dark;
 }

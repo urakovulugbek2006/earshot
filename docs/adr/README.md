@@ -15,4 +15,5 @@ Format: Context → Options → Decision → Consequences.
 | [0006](0006-audio-delivery.md) | HLS with AAC, three renditions, two-second segments | Accepted |
 | [0007](0007-transactional-outbox.md) | Transactional outbox for all event publishing | Accepted |
 | [0008](0008-design-direction.md) | Direction C ("Signal") as the design system, light and dark | Accepted (palette superseded by 0009) |
-| [0009](0009-timurid-palette.md) | Timurid turquoise as the brand colour | Accepted |
+| [0009](0009-timurid-palette.md) | Timurid turquoise as the brand colour | Superseded by 0010 |
+| [0010](0010-magenta-palette.md) | Magenta as the brand colour | Accepted |
