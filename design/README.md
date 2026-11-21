@@ -1,7 +1,7 @@
 # Earshot design system
 
-The instrument language on a rooms-first information architecture.
-**Dark is the primary theme; light is secondary.**
+Direction A's night palette on a rooms-first information architecture.
+**Night is the primary theme; light is secondary.**
 
 ## The visual thesis, in one line
 
@@ -24,19 +24,20 @@ that **structure and skin are independent**:
 
 ## The palette
 
-| Token | Dark (primary) | Light | Role |
+| Token | Night (primary) | Light | Role |
 |---|---|---|---|
-| `accent` | `#FF2E7E` | `#C2185B` | **Actions only** — play, publish, join, sign in |
+| `accent` | `#22D3EE` | `#0E7490` | **Actions only** — play, publish, join, sign in |
 | `status.live` | `#F3C84E` | `#8A6A08` | **Means live** — in-sync chip, on-air rooms |
 | `status.warn` | `#E0953A` | `#B45309` | Drifting, reconnecting |
-| `status.error` | `#F0564A` | `#F0564A` | Failed jobs |
+| `status.error` | `#F0564A` | `#C4392E` | Failed jobs |
 | `status.info` | `#7A8CF0` | `#4338CA` | Tertiary fills |
-| `bg.base` | `#0B0B0D` | `#F7F7F8` | Ground |
-| `border.hair` | `#24242B` | `#E2E2E6` | The 1px signature |
+| `bg.base` | `#0A0B0D` | `#F7F8FA` | Ground |
+| `border.hair` | `#23272E` | `#DDE1E7` | The 1px signature |
 
-**Magenta is for actions. Gold is for live state.** A header is not a button;
-if everything clickable and everything live share a colour, neither means
-anything.
+**Cyan is for actions. Gold is for live state. Amber is for drifting.** A
+header is not a button; if everything clickable and everything live share a
+colour, neither means anything. Cyan against gold/amber is also a cool/warm
+split, which makes the action/status divide legible at a glance.
 
 ## Files
 
@@ -64,10 +65,9 @@ anything.
 
 ## Why light is not an inversion
 
-- **The accent darkens** going to light (`#FF2E7E` → `#C2185B`) rather than
-  lightening — the opposite of the usual move, because the dark theme is the
-  one that needed the lifted value in the first place (`#C2185B` is 3.27:1 on
-  `#0B0B0D`).
+- **The accent darkens** going to light (`#22D3EE` → `#0E7490`) rather than
+  lightening — the opposite of the usual move. The bright cyan is 1.9:1 on
+  paper, effectively invisible.
 - **Gold changes value, not just brightness.** `#F3C84E` is 1.7:1 on paper and
   cannot carry text, so light uses `#8A6A08`.
 - The hairline flips from `#24242B` to `#E2E2E6` — in both themes it is the
@@ -78,14 +78,21 @@ anything.
 
 Checked, not assumed. `text-muted` is the floor in both themes.
 
-| Pair | Dark | Light |
+Verified programmatically across eleven pairs per theme — no failures.
+
+| Pair | Night | Light |
 |---|---|---|
-| `text-primary` on `bg-base` | ~17:1 | ~16:1 |
-| `text-secondary` on `bg-base` | ~10:1 | ~9:1 |
-| `text-muted` on `bg-base` | ~5.3:1 | ~5.4:1 |
-| `text-on-accent` on `accent` | ~5.5:1 | ~5.9:1 |
-| `accent` as text on `bg-base` | ~5.5:1 | ~5.9:1 |
-| `status.live` as text on `bg-base` | ~12:1 | ~4.7:1 |
+| `text-primary` on `bg-base` | 17.1:1 | 17.7:1 |
+| `text-secondary` on `bg-base` | 11.9:1 | 8.4:1 |
+| `text-muted` on `bg-base` | 6.3:1 | 4.9:1 |
+| `accent` as text on `bg-base` | **10.9:1** | 5.0:1 |
+| `text-on-accent` on `accent` | 10.1:1 | 5.4:1 |
+| `status.live` as text on `bg-base` | 12.4:1 | 4.8:1 |
+| `status.warn` as text on `bg-base` | 8.0:1 | 4.7:1 |
+
+The night theme has no pair under 5.7:1. **Light is tighter** — gold at 4.8 and
+amber at 4.7 clear the 4.5 floor with little margin, so neither may be used at
+small sizes on `bg-base` without re-checking.
 
 ## Touch targets
 
