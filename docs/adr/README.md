@@ -20,4 +20,5 @@ Format: Context → Options → Decision → Consequences.
 | [0011](0011-rooms-first-ia.md) | Rooms-first information architecture | Accepted |
 | [0012](0012-instrument-visual-language.md) | Instrument visual language, dark primary | Accepted |
 | [0013](0013-direction-a-night-palette.md) | Direction A's night palette, cyan accent | Superseded by 0014 |
-| [0014](0014-violet-tinted-grounds.md) | Violet accent on accent-tinted grounds | Accepted |
+| [0014](0014-violet-tinted-grounds.md) | Violet accent on accent-tinted grounds | Accepted; grounds superseded by 0015 |
+| [0015](0015-violet-grounds.md) | Violet grounds, and no white in the system | Accepted |
