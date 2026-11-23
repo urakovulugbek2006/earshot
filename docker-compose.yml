@@ -1,0 +1,124 @@
+# Local development stack. NOT a production descriptor — production runs on
+# k3s (ADR-0004), and this file is allowed to diverge from it.
+#
+# Image tags are pinned on purpose, except where noted. Docker Hub rate-limits
+# unauthenticated pulls, so run `docker login` before the first `up` or you
+# will get `toomanyrequests` — see docs/10-local-setup.md.
+
+name: earshot
+
+services:
+  # Source of truth. One instance, one schema per service, no cross-schema
+  # reads (ADR-0005). Schemas are created by each service's own migrations.
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # Sessions, refresh-token denylist, playback queue, room state, presence,
+  # rate limits. The room compare-and-set script lives here (ADR-0007).
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  # Search projection. Built from the event log, never dual-written (ADR-0007).
+  meilisearch:
+    image: getmeili/meilisearch:v1.11
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+      MEILI_ENV: development
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilidata:/meili_data
+    restart: unless-stopped
+
+  # HLS segments and artwork. In production masters are archived off-box
+  # (docs/03-capacity-and-cost.md); locally everything stays here.
+  #
+  # NOTE: tag intentionally unpinned. This environment cannot reach a registry
+  # to verify a RELEASE tag, and a guessed one would be worse than `latest`.
+  # Pin it on the first successful pull, and before week 8.
+  minio:
+    image: minio/minio:latest
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - miniodata:/data
+    restart: unless-stopped
+
+  # Kafka API at a fraction of the memory. The outbox relay publishes here.
+  redpanda:
+    image: redpandadata/redpanda:v24.2.11
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp=1
+      - --memory=512M
+      - --reserve-memory=0M
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      - --advertise-kafka-addr=PLAINTEXT://redpanda:29092,OUTSIDE://localhost:9092
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+    volumes:
+      - redpandadata:/var/lib/redpanda/data
+    restart: unless-stopped
+
+  # Play events, and the artist analytics the UI reads: skip points, listener
+  # geography. A row store cannot answer those at any useful size.
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8-alpine
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "8123:8123"
+      - "9009:9000"
+    volumes:
+      - chdata:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+  meilidata:
+  miniodata:
+  redpandadata:
+  chdata:

@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    name: node · lint, typecheck, test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Runs before anything else: the token build is also the token test.
+      # It fails the pipeline on an unresolved reference, on a semantic token
+      # missing from one theme, and on any token holding pure white (ADR-0015).
+      - name: tokens
+        run: pnpm tokens
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+
+  # Guards the thing that will actually drift: the design tokens are the source
+  # of truth, so a hand-edit of the generated CSS must not survive review.
+  generated-is-current:
+    name: generated files are current
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm tokens
+      - name: fail if the build changed a committed file
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::Generated output differs from what is committed."
+            echo "Run 'pnpm tokens' and commit the result."
+            git --no-pager diff --stat
+            exit 1
+          fi
+
+  compose:
+    name: docker compose is valid
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate
+        run: |
+          cp .env.example .env
+          docker compose config --quiet
+          echo "compose file is valid"

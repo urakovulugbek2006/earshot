@@ -57,8 +57,14 @@ split, which makes the action/status divide legible at a glance.
 | File | Role |
 |---|---|
 | `tokens.json` | **Source of truth.** DTCG. `primitive` → `semantic` → scales. |
-| `theme.css` | Emitted CSS custom properties + the Tailwind v4 `@theme` bridge. |
-| `build-tokens.mjs` | Style Dictionary build (lands with the repo scaffold). |
+| `../packages/tokens/build.mjs` | The build. ~100 dependency-free lines. |
+| `../packages/tokens/dist/theme.css` | Generated. Not committed; CI regenerates and compares. |
+
+Run `pnpm tokens` after changing a token. The build is also the test — it fails
+on an unresolved reference, on a semantic token missing from one theme, and on
+any token holding pure white. Not Style Dictionary: that earns its keep across
+several output platforms, and we emit one. See
+[docs/10-local-setup.md](../docs/10-local-setup.md).
 
 ## The five rules
 

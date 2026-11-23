@@ -4,9 +4,10 @@
 room, share a link, and everyone hears the same track at the same millisecond —
 with a shared queue and live chat.
 
-> **Status: Week 0 of 8 — architecture and design.** No application code yet.
-> What exists today is the design record: 8 ADRs, a capacity model, a full
-> technical design for the hard feature, and the design token system.
+> **Status: Week 1 → 2.** The design record is complete (15 ADRs, a capacity
+> model, a full technical design for the hard feature, 14 screens across two
+> themes) and the monorepo scaffold is in: workspaces, the token build, the
+> local data layer and CI. Application code starts with the walking skeleton.
 
 ---
 
@@ -73,6 +74,7 @@ Start here. The documents are the project at this stage.
 | [Patterns & algorithms](docs/05-patterns-and-algorithms.md) | Patterns and data structures mapped per week, plus what we deliberately avoid |
 | [How to draw system design](docs/06-how-to-draw-system-design.md) | The method, written while learning it |
 | [Layers & DDD](docs/07-layers-and-ddd.md) | Controller / application / domain / infrastructure, and where we deliberately don't use DDD |
+| [Local setup](docs/10-local-setup.md) | Prerequisites, the data layer, the token build, and the Docker Hub trap |
 | [ADRs](docs/adr/) | Eight decisions, each with the rejected options and why |
 | [Design system](design/) | Token source of truth, light and dark |
 
@@ -107,8 +109,15 @@ docs/notes/    One-paragraph decision notes per algorithm implemented by hand
 design/        Design tokens — the source of truth for every colour and scale
 ```
 
-Application code lands from week 2 as a monorepo: `apps/` for deployables,
-`services/` for Go services, `packages/` for shared contracts and types.
+```
+apps/web/          Next.js 15 — the client
+services/          Go services
+packages/tokens/   design/tokens.json -> CSS custom properties
+packages/ui/       component library + Storybook
+packages/contracts/ OpenAPI + protobuf, generated types
+```
+
+Getting it running: [docs/10-local-setup.md](docs/10-local-setup.md).
 
 ## Licence
 
