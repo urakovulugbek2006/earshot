@@ -1,6 +1,6 @@
 /* ──────────────────────────────────────────────────────────────────────────
    Earshot — semantic theme layer
-   Direction A's night palette on the rooms-first IA. Night primary, light secondary.
+   Violet accent on accent-tinted grounds, on the rooms-first IA. Night primary, light secondary.
 
    GENERATED FROM design/tokens.json. Hand-written for now; the Style
    Dictionary build lands with the repo scaffold (see design/README.md).
@@ -14,41 +14,43 @@
 
 :root {
   /* ── primitives ──────────────────────────────────────────────────── */
-  /* night ground — Direction A's values, unchanged */
-  --graphite-100: #edeff2;
-  --graphite-300: #c3cad3;
-  --graphite-500: #8a929c;
-  --graphite-600: #363c45;
-  --graphite-700: #23272e;
-  --graphite-800: #22262d;
-  --graphite-850: #1a1d23;
-  --graphite-900: #14161a;
-  --graphite-950: #0a0b0d;
-  --graphite-1000: #06070a;
-  /* light ground */
-  --paper-0: #ffffff;
-  --paper-50: #f7f8fa;
-  --paper-100: #f0f2f5;
-  --paper-200: #e8ebef;
-  --paper-300: #dde1e7;
-  --paper-400: #c2c8d1;
-  --paper-600: #656d78;
-  --paper-700: #434a54;
-  --paper-900: #0f1216;
+  /* night ground — tinted with the accent hue, not neutral grey */
+  --graphite-100: #eeedf3;
+  --graphite-300: #c4c1d2;
+  --graphite-500: #8b8799;
+  --graphite-600: #383545;
+  --graphite-700: #262430;
+  --graphite-800: #232130;
+  --graphite-850: #1a1824;
+  --graphite-900: #14131c;
+  --graphite-950: #0a0a0f;
+  --graphite-1000: #060609;
+  /* light ground — tinted; paper-0 is the card surface, NOT pure white */
+  --paper-0: #fbfafe;
+  --paper-50: #f4f2f9;
+  --paper-100: #eeebf6;
+  --paper-200: #e5e1f0;
+  --paper-300: #ddd8ec;
+  --paper-400: #c3bbd9;
+  --paper-600: #68617c;
+  --paper-700: #474156;
+  --paper-900: #16131f;
   /* brand and status */
-  --cyan-100: #cff4fb;
-  --cyan-300: #22d3ee;
-  --cyan-700: #0e7490;
-  --cyan-900: #0c2f38;
-  --cyan-950: #06181c;
+  --white: #ffffff;
+  --violet-100: #e9ddfd;
+  --violet-200: #d8c8fb;
+  --violet-300: #a78bfa;
+  --violet-700: #6d28d9;
+  --violet-900: #241b3d;
+  --violet-950: #16102b;
   --gold-500: #f3c84e;
-  --gold-700: #8a6a08;
+  --gold-800: #75590a;
   --amber-500: #e0953a;
-  --amber-600: #b45309;
-  --indigo-400: #7a8cf0;
-  --indigo-500: #4338ca;
+  --amber-700: #97440a;
+  --blue-300: #7aa2f0;
+  --blue-500: #1d4ed8;
   --red-500: #f0564a;
-  --red-700: #c4392e;
+  --red-700: #b8352b;
 
   /* ── semantic: NIGHT (the default) ───────────────────────────────── */
   --bg-base: var(--graphite-950);
@@ -59,20 +61,20 @@
   --text-primary: var(--graphite-100);
   --text-secondary: var(--graphite-300);
   --text-muted: var(--graphite-500);
-  --text-on-accent: var(--cyan-950);
+  --text-on-accent: var(--violet-950);
 
   --border-hair: var(--graphite-700);
   --border-strong: var(--graphite-600);
 
-  --accent: var(--cyan-300);
-  --accent-soft: var(--cyan-900);
+  --accent: var(--violet-300);
+  --accent-soft: var(--violet-900);
 
   --status-live: var(--gold-500);
   --status-warn: var(--amber-500);
   --status-error: var(--red-500);
-  --status-info: var(--indigo-400);
+  --status-info: var(--blue-300);
 
-  --waveform-played: var(--cyan-300);
+  --waveform-played: var(--violet-300);
   --waveform-remaining: var(--graphite-800);
 
   color-scheme: dark;
@@ -108,8 +110,9 @@
 
 /* ── semantic: LIGHT ──────────────────────────────────────────────────
    Derived from night by swapping this one block. Not an inversion: the
-   accent DARKENS here (cyan-700) rather than lightening, and gold moves
-   to its 700 value because gold-500 is 1.7:1 on paper.
+   accent DARKENS here (violet-700) rather than lightening, and gold and
+   amber move to darker values because tinting the ground costs contrast:
+   the untinted light theme could use #8A6A08, this one cannot.
    ─────────────────────────────────────────────────────────────────── */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
@@ -121,20 +124,20 @@
     --text-primary: var(--paper-900);
     --text-secondary: var(--paper-700);
     --text-muted: var(--paper-600);
-    --text-on-accent: var(--paper-0);
+    --text-on-accent: var(--white);
 
     --border-hair: var(--paper-300);
     --border-strong: var(--paper-400);
 
-    --accent: var(--cyan-700);
-    --accent-soft: var(--cyan-100);
+    --accent: var(--violet-700);
+    --accent-soft: var(--violet-100);
 
-    --status-live: var(--gold-700);
-    --status-warn: var(--amber-600);
+    --status-live: var(--gold-800);
+    --status-warn: var(--amber-700);
     --status-error: var(--red-700);
-    --status-info: var(--indigo-500);
+    --status-info: var(--blue-500);
 
-    --waveform-played: var(--cyan-700);
+    --waveform-played: var(--violet-700);
     --waveform-remaining: var(--paper-300);
 
     color-scheme: light;
@@ -150,20 +153,20 @@
   --text-primary: var(--paper-900);
   --text-secondary: var(--paper-700);
   --text-muted: var(--paper-600);
-  --text-on-accent: var(--paper-0);
+  --text-on-accent: var(--white);
 
   --border-hair: var(--paper-300);
   --border-strong: var(--paper-400);
 
-  --accent: var(--cyan-700);
-  --accent-soft: var(--cyan-100);
+  --accent: var(--violet-700);
+  --accent-soft: var(--violet-100);
 
-  --status-live: var(--gold-700);
-  --status-warn: var(--amber-600);
+  --status-live: var(--gold-800);
+  --status-warn: var(--amber-700);
   --status-error: var(--red-700);
-  --status-info: var(--indigo-500);
+  --status-info: var(--blue-500);
 
-  --waveform-played: var(--cyan-700);
+  --waveform-played: var(--violet-700);
   --waveform-remaining: var(--paper-300);
 
   color-scheme: light;

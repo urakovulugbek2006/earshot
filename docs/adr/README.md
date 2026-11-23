@@ -19,4 +19,5 @@ Format: Context → Options → Decision → Consequences.
 | [0010](0010-magenta-palette.md) | Magenta as the brand colour | Superseded by 0013 |
 | [0011](0011-rooms-first-ia.md) | Rooms-first information architecture | Accepted |
 | [0012](0012-instrument-visual-language.md) | Instrument visual language, dark primary | Accepted |
-| [0013](0013-direction-a-night-palette.md) | Direction A's night palette, cyan accent | Accepted |
+| [0013](0013-direction-a-night-palette.md) | Direction A's night palette, cyan accent | Superseded by 0014 |
+| [0014](0014-violet-tinted-grounds.md) | Violet accent on accent-tinted grounds | Accepted |

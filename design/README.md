@@ -1,7 +1,7 @@
 # Earshot design system
 
-Direction A's night palette on a rooms-first information architecture.
-**Night is the primary theme; light is secondary.**
+Violet accent on accent-tinted grounds, on a rooms-first information
+architecture. **Night is the primary theme; light is secondary.**
 
 ## The visual thesis, in one line
 
@@ -26,13 +26,22 @@ that **structure and skin are independent**:
 
 | Token | Night (primary) | Light | Role |
 |---|---|---|---|
-| `accent` | `#22D3EE` | `#0E7490` | **Actions only** — play, publish, join, sign in |
-| `status.live` | `#F3C84E` | `#8A6A08` | **Means live** — in-sync chip, on-air rooms |
-| `status.warn` | `#E0953A` | `#B45309` | Drifting, reconnecting |
-| `status.error` | `#F0564A` | `#C4392E` | Failed jobs |
-| `status.info` | `#7A8CF0` | `#4338CA` | Tertiary fills |
-| `bg.base` | `#0A0B0D` | `#F7F8FA` | Ground |
-| `border.hair` | `#23272E` | `#DDE1E7` | The 1px signature |
+| `accent` | `#A78BFA` | `#6D28D9` | **Actions only** — play, publish, join, sign in |
+| `status.live` | `#F3C84E` | `#75590A` | **Means live** — in-sync chip, on-air rooms |
+| `status.warn` | `#E0953A` | `#97440A` | Drifting, reconnecting |
+| `status.error` | `#F0564A` | `#B8352B` | Failed jobs |
+| `status.info` | `#7AA2F0` | `#1D4ED8` | Tertiary fills |
+| `bg.base` | `#0A0A0F` | `#F4F2F9` | Ground — **tinted**, not grey |
+| `bg.surface` | `#14131C` | `#FBFAFE` | Card — **not pure white** |
+| `border.hair` | `#262430` | `#DDD8EC` | The 1px signature |
+
+### The grounds are tinted, and that is deliberate
+
+Both neutral ramps are pulled a few points toward the accent hue (~255°, RGB
+spread 4–20). **Nothing in the light theme is `#FFFFFF`** — not even a card.
+Pure white survives only as `primitive.white`, used exclusively for text and
+icons *on* the accent. A pure-white light theme is what every framework hands
+you by default, and it reads that way.
 
 **Cyan is for actions. Gold is for live state. Amber is for drifting.** A
 header is not a button; if everything clickable and everything live share a
@@ -62,6 +71,8 @@ split, which makes the action/status divide legible at a glance.
 4. **No shadows.** Depth comes from the `base → surface → raised` background
    steps plus hairlines. There are no shadow tokens to reach for.
 5. **1px is the default border.** 2px is reserved for focus rings.
+6. **No surface is pure white.** `#FFFFFF` is `primitive.white` and belongs on
+   the accent only. If a component sets a white background, it is a bug.
 
 ## Why light is not an inversion
 
@@ -82,17 +93,26 @@ Verified programmatically across eleven pairs per theme — no failures.
 
 | Pair | Night | Light |
 |---|---|---|
-| `text-primary` on `bg-base` | 17.1:1 | 17.7:1 |
-| `text-secondary` on `bg-base` | 11.9:1 | 8.4:1 |
-| `text-muted` on `bg-base` | 6.3:1 | 4.9:1 |
-| `accent` as text on `bg-base` | **10.9:1** | 5.0:1 |
-| `text-on-accent` on `accent` | 10.1:1 | 5.4:1 |
-| `status.live` as text on `bg-base` | 12.4:1 | 4.8:1 |
-| `status.warn` as text on `bg-base` | 8.0:1 | 4.7:1 |
+| `text-primary` on `bg-base` | 17.0:1 | 16.5:1 |
+| `text-secondary` on `bg-base` | 11.2:1 | 8.8:1 |
+| `text-muted` on `bg-base` | 5.7:1 | 5.3:1 |
+| `accent` as text on `bg-base` | 7.3:1 | 6.4:1 |
+| `text-on-accent` on `accent` | 6.8:1 | 7.1:1 |
+| `status.live` as text on `bg-base` | 12.4:1 | 5.9:1 |
+| `status.warn` as text on `bg-base` | 8.0:1 | 6.0:1 |
 
-The night theme has no pair under 5.7:1. **Light is tighter** — gold at 4.8 and
-amber at 4.7 clear the 4.5 floor with little margin, so neither may be used at
-small sizes on `bg-base` without re-checking.
+**Nothing in either theme sits under 5.27:1.** The light values for gold and
+amber are darker than an untinted theme would need — tinting the ground cost
+contrast, and both were dropped a step to pay for it.
+
+### The accent must separate from gold side by side
+
+Violet and gold appear next to each other in the room strip, so the pair is
+checked on two axes, not one: **142° of hue and a 1.71 lightness ratio**, which
+means they stay distinguishable in greyscale. Teal (the previous accent) had the
+same hue gap but a 1.06 lightness ratio — hue was carrying the whole
+distinction, which fails for colour-blind viewers. Magenta was worse: 69° of
+hue from gold.
 
 ## Touch targets
 
