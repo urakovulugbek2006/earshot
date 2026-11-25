@@ -184,10 +184,19 @@ ${body(light, true)}
   }
 }
 
-:root[data-theme="light"] {
+/* Theme overrides apply to ANY element, not just :root, so a subtree can be
+   forced into one theme. The component gallery renders both at once that way,
+   which is how a hardcoded colour gets caught the moment it is written. */
+[data-theme="light"] {
 ${body(light)}
 
   color-scheme: light;
+}
+
+[data-theme="dark"] {
+${body(night)}
+
+  color-scheme: dark;
 }
 
 /* Tailwind v4 bridge: exposes the semantic layer as utilities. */

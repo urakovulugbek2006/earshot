@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+
+/* Belt and braces, not a fix for a diagnosed bug.
+   Tailwind v4 auto-detects sources, and in this workspace it does find
+   @earshot/ui through its node_modules symlink — removing this line still
+   produces every utility. But auto-detection across a symlink is behaviour
+   that has changed between Tailwind versions, and @earshot/ui is the only
+   place a large part of our class names live. Naming the source explicitly
+   costs one line and removes the dependency on that behaviour.
+   Add a line here for every workspace package that ships Tailwind classes. */
+@source '../../../packages/ui/src';
+
+/* Tokens last: theme.css carries the `@theme inline` block that turns the
+   semantic layer into utilities (bg-surface, text-muted, border-hair), so
+   Tailwind has to see it. */
+@import '@earshot/tokens/theme.css';
