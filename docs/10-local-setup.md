@@ -48,6 +48,24 @@ docker compose ps  # all six should report healthy or running
 pnpm down
 ```
 
+### Without Docker
+
+Docker is not always available — the cloud container this was partly built in
+has the CLI but no daemon. Postgres and Redis install directly:
+
+```bash
+sudo apt-get install -y postgresql-16 redis-server
+sudo pg_ctlcluster 16 main start
+redis-server --daemonize yes
+
+sudo -u postgres psql -c "create role earshot login password 'earshot_dev_only' superuser;"
+sudo -u postgres createdb -O earshot earshot
+```
+
+That covers everything needed up to week 5. MinIO, Redpanda and ClickHouse
+have no comparable one-line install, so from week 3 Docker stops being
+optional.
+
 | Service | Port | What it is for |
 |---|---|---|
 | PostgreSQL | 5432 | Source of truth. One schema per service, no cross-schema reads (ADR-0005) |
@@ -59,6 +77,38 @@ pnpm down
 
 ClickHouse's native port is remapped to **9009** because MinIO already holds
 9000. Easy to lose an hour to.
+
+## Migrations
+
+```bash
+export DATABASE_URL=postgres://earshot:earshot_dev_only@127.0.0.1:5432/earshot
+pnpm --filter @earshot/identity migrate
+```
+
+Each service owns its own migrations and its own schema (ADR-0005). The runner
+applies `.sql` files in lexical order, records a checksum of each, wraps each
+in a transaction, and **refuses to run if an already-applied file has
+changed** — editing an applied migration works on the machine where the change
+is also in the database and silently does nothing on the server where it is
+not.
+
+## Tests and the two database engines
+
+```bash
+pnpm --filter @earshot/identity test     # PGlite — PostgreSQL in WASM, ~2s
+DATABASE_URL=postgres://earshot:earshot_dev_only@127.0.0.1:5432/earshot \
+  pnpm --filter @earshot/identity test   # the same suite, real server
+```
+
+The default needs no database at all, so the tests are cheap enough to run on
+every save. But PGlite is a different major version from the one production
+pins, so CI runs the identical suite against a real Postgres service too. That
+second job is what makes the fast one trustworthy.
+
+It has already paid for itself: `query()` in PGlite goes over the extended
+protocol and rejects multi-statement SQL, while `pg` happens to allow it for
+parameterless queries. The migration runner now uses `exec` where the driver
+has one. A single-engine suite would not have found that until deployment.
 
 ## Design tokens
 

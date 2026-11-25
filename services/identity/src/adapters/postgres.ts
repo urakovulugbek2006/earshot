@@ -19,6 +19,20 @@ export interface Sql {
     text: string,
     params?: unknown[]
   ): Promise<{ rows: R[] }>;
+
+  /**
+   * Run a script that contains several statements.
+   *
+   * `query` cannot be relied on for this. PGlite sends it over the extended
+   * protocol, which permits exactly one statement and fails with "cannot
+   * insert multiple commands into a prepared statement"; `pg` only gets away
+   * with it because a parameterless query falls back to the simple protocol,
+   * and stops getting away with it the moment a parameter is added.
+   *
+   * So multi-statement SQL — which in practice means migrations — goes
+   * through here. PGlite provides it; for `pg`, `query` is the implementation.
+   */
+  exec?(text: string): Promise<unknown>;
 }
 
 /** Postgres raises this on any unique-index violation. */

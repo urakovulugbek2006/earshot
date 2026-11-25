@@ -10,9 +10,11 @@
  */
 import { PGlite } from '@electric-sql/pglite';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import { after, before, describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import pg from 'pg';
+
+import { migrate } from '../src/migrate.ts';
 
 import { Email } from '../src/domain/email.ts';
 import { Password } from '../src/domain/password.ts';
@@ -130,22 +132,52 @@ describe('decideRotation', () => {
   });
 });
 
+
+/* ── the database under test ──────────────────────────────────────────── */
+
+const MIGRATIONS = fileURLToPath(new URL('../migrations', import.meta.url));
+
+let pglite: PGlite | null = null;
+let pgClient: pg.Client | null = null;
+
+async function connect(): Promise<Sql> {
+  const url = process.env['DATABASE_URL'];
+  if (url) {
+    pgClient = new pg.Client({ connectionString: url });
+    await pgClient.connect();
+    const sql = pgClient as unknown as Sql;
+    await migrate(sql, MIGRATIONS);
+    // A real server keeps its rows between runs, and these tests assume an
+    // empty table. Cascade reaches sessions and refresh_tokens.
+    await sql.query('truncate identity.users cascade');
+    return sql;
+  }
+  pglite = new PGlite();
+  const sql = pglite as unknown as Sql;
+  await migrate(sql, MIGRATIONS);
+  return sql;
+}
+
+async function disconnect(): Promise<void> {
+  if (pgClient) await pgClient.end();
+  if (pglite) await pglite.close();
+  pgClient = null;
+  pglite = null;
+}
+
 /* ── against real Postgres ────────────────────────────────────────────── */
 
-describe('identity service', () => {
-  let db: PGlite;
+describe(`identity service [${process.env['DATABASE_URL'] ? 'real postgres' : 'pglite'}]`, () => {
   let deps: Deps;
   let clock: { current: Date } & Clock;
 
   before(async () => {
-    db = new PGlite();
-    const migration = readFileSync(
-      fileURLToPath(new URL('../migrations/0001_identity.sql', import.meta.url)),
-      'utf8'
-    );
-    await db.exec(migration);
-
-    const sql = db as unknown as Sql;
+    // Same suite, either engine. Without DATABASE_URL it runs on PGlite
+    // (PostgreSQL 19 in WASM, no daemon, ~2s). With it, the identical tests
+    // run against a real server — which is what proves PGlite is not lying:
+    // it is a different major version from the one production pins, and a
+    // test suite that only ever sees one engine cannot tell you that.
+    const sql = await connect();
     clock = {
       current: new Date('2026-03-01T12:00:00Z'),
       now() {
@@ -162,7 +194,7 @@ describe('identity service', () => {
   });
 
   after(async () => {
-    await db.close();
+    await disconnect();
   });
 
   it('registers a user and opens a session', async () => {

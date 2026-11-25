@@ -35,7 +35,49 @@ jobs:
 
       - run: pnpm lint
       - run: pnpm typecheck
+
+      # Default engine: PGlite — PostgreSQL in WASM, no service container, so
+      # these run in seconds and need no registry pull.
       - run: pnpm test
+
+  # The same suite against a real server. PGlite is a different major version
+  # from the one production pins, so a suite that only ever saw one engine
+  # could not tell us the SQL is portable. This job is what makes PGlite
+  # trustworthy for the fast path above.
+  identity-real-postgres:
+    name: identity · against real postgres
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: earshot
+          POSTGRES_PASSWORD: earshot_dev_only
+          POSTGRES_DB: earshot
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U earshot"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: migrate
+        run: pnpm --filter @earshot/identity migrate
+        env:
+          DATABASE_URL: postgres://earshot:earshot_dev_only@localhost:5432/earshot
+      - name: test
+        run: pnpm --filter @earshot/identity test
+        env:
+          DATABASE_URL: postgres://earshot:earshot_dev_only@localhost:5432/earshot
 
   # Guards the thing that will actually drift: the design tokens are the source
   # of truth, so a hand-edit of the generated CSS must not survive review.
