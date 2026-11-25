@@ -62,9 +62,20 @@ sudo -u postgres psql -c "create role earshot login password 'earshot_dev_only' 
 sudo -u postgres createdb -O earshot earshot
 ```
 
-That covers everything needed up to week 5. MinIO, Redpanda and ClickHouse
-have no comparable one-line install, so from week 3 Docker stops being
-optional.
+That covers everything needed up to week 5.
+
+MinIO, Redpanda and ClickHouse **do** install without Docker on a normal
+machine — MinIO is a single binary, and the other two publish apt repositories.
+Docker is still the better choice for them locally: six services with pinned
+versions, one `up`, one `down`, and nothing left installed on the host when
+you are finished.
+
+A note for anyone running this in a restricted environment: their download
+hosts (`dl.min.io`, `packages.clickhouse.com`, `dl.redpanda.com`) may be
+blocked by an egress proxy even when apt and npm are not, and Ubuntu's own
+`clickhouse-server` package is from 2018 and not worth using. In that case
+those three cannot be verified locally at all, and the compose file is the
+only path.
 
 | Service | Port | What it is for |
 |---|---|---|
